@@ -22,5 +22,5 @@ def downloader(func, warehouse):
             raise error
     return download
 
-get = functools.partial(downloader, requests.get)
-post = functools.partial(downloader, requests.post)
+get = functools.partial(downloader, requests.get, Warehouse('get'))
+post = functools.partial(downloader, requests.post, Warehouse('post'))
