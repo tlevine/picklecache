@@ -3,4 +3,4 @@ import requests
 
 from picklecache.cache import downloader
 
-get = downloader(lambda x: requests.get(x), Warehouse('get'))
+get = downloader(lambda x: requests.get(x), Warehouse('get', mutable = False))
