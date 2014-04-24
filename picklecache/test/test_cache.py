@@ -20,7 +20,7 @@ def test_get_error():
     get = downloader(fake_get, fake_warehouse)
 
     try:
-        get(fake_warehouse, url, requests_get = fake_get)
+        get(url)
     except ValueError:
         n.assert_tuple_equal(fake_warehouse[url], (error, None))
     else:
