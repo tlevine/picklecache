@@ -2,12 +2,12 @@ from distutils.core import setup
 
 __version__ = '0.0.1'
 
-setup(name='request_pickles',
+setup(name='picklecache',
       author='Thomas Levine',
       author_email='_@thomaslevine.com',
-      description='Download stuff with python-requests, pickling the responses and errors',
+      description='Cache functions with pickle and files',
       url='https://github.com/tlevine/request_pickles',
-      packages=['request_pickles'],
+      packages=['picklecacge'],
       install_requires = ['pickle_warehouse'],
       extras_require = [],
       tests_require = ['nose'],

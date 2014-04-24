@@ -1,12 +1,13 @@
-import requests
-
 def downloader(func, warehouse):
     '''
-    func :: anything -> response
+    func :: a -> b
+    warehouse :: dict-like
+    
+    Returns a function with warehouse cache :: a -> b
     '''
     def download(*args, **kwargs):
-        if url in warehouse:
-            output = warehouse[url]
+        if args in warehouse:
+            output = warehouse[args]
         else:
             try:
                 response = func(*args, **kwargs)
@@ -21,6 +22,3 @@ def downloader(func, warehouse):
         else:
             raise error
     return download
-
-get = functools.partial(downloader, requests.get, Warehouse('get'))
-post = functools.partial(downloader, requests.post, Warehouse('post'))
