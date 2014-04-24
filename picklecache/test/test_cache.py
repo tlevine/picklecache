@@ -1,3 +1,5 @@
+import nose.tools as n
+
 from picklecache.cache import downloader
 
 def test_downloader_success():
@@ -8,7 +10,7 @@ def test_downloader_success():
     expected_response = 88
     observed_response = get(url)
     n.assert_equal(observed_response, expected_response)
-    n.assert_tuple_equal(fake_warehouse[url], (None, expected_response))
+    n.assert_tuple_equal(fake_warehouse[(url,)], (None, expected_response))
 
 def test_get_error():
     fake_warehouse = {}
@@ -22,7 +24,7 @@ def test_get_error():
     try:
         get(url)
     except ValueError:
-        n.assert_tuple_equal(fake_warehouse[url], (error, None))
+        n.assert_tuple_equal(fake_warehouse[(url,)], (error, None))
     else:
         raise AssertionError('An error should have been raised.')
 

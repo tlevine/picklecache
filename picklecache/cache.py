@@ -15,7 +15,7 @@ def downloader(func, warehouse):
                 output = error, None
             else:
                 output = None, response
-            warehouse[url] = output
+            warehouse[args] = output
         error, response = output
         if error == None:
             return response
