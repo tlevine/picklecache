@@ -5,7 +5,7 @@ from pickle_warehouse import Warehouse
 
 from picklecache import cache
 
-def test_cache_success():
+def test_new_success():
     tmp = mkdtemp()
     warehouse = Warehouse(tmp)
     url = 'http://a.b/c'
@@ -13,6 +13,20 @@ def test_cache_success():
     @cache(tmp)
     def get(_):
         return 88
+
+    observed_response = get(url)
+    n.assert_equal(observed_response, 88)
+    n.assert_tuple_equal(warehouse[(url,)], (None, 88))
+
+def test_old_success():
+    tmp = mkdtemp()
+    warehouse = Warehouse(tmp)
+    url = 'http://a.b/c'
+    warehouse[url] = (None, 88)
+
+    @cache(tmp)
+    def get(_):
+        raise AssertionError('This should not run.')
 
     observed_response = get(url)
     n.assert_equal(observed_response, 88)
