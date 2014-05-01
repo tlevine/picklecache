@@ -36,18 +36,17 @@ def test_new_error():
     tmp = mkdtemp()
     warehouse = Warehouse(tmp)
     url = 'http://a.b/c'
+    error = ValueError('This is a test.')
 
     @cache(tmp)
     def get(_):
         return 88
-
-    error = ValueError('This is a test.')
-    def fake_get(_):
         raise error
 
     try:
         get(url)
-    except ValueError:
+    except ValueError as e:
+        n.assert_equal(str(e), str(error))
         n.assert_tuple_equal(warehouse[(url,)], (error, None))
     else:
         raise AssertionError('An error should have been raised.')
