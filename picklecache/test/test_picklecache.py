@@ -40,14 +40,13 @@ def test_new_error():
 
     @cache(tmp)
     def get(_):
-        return 88
         raise error
 
     try:
         get(url)
     except ValueError as e:
         n.assert_equal(str(e), str(error))
-        n.assert_tuple_equal(warehouse[(url,)], (error, None))
+        n.assert_equal(str(warehouse[(url,)]), str((error, None)))
     else:
         raise AssertionError('An error should have been raised.')
 
