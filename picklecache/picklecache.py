@@ -1,9 +1,26 @@
+from pickle_warehouse import Warehouse
+
 def cache(*args, **kwargs):
     '''
-    Decorate a function with this to cache it to a pickle_warehouse.Warehouse
+    Cache a function with a pickle_warehouse.Warehouse.
+
+    Decorate the function with @cache(*args, **kwargs).
+    The args and kwargs get passed to the Warehouse.
+    For example::
+
+        @cache('.http')
+        def get(url):
+            return requests.get(url, auth = ('username', 'password'))
+
+    pickle_warehouse.Warehouse would ordinarily fail if
+    no arguments were passed to it. If you pass no arguments
+    to cache, the Warehouse directory argument (the one
+    required argument) will be set to the name of the function.
     '''
-    warehouse = Warehouse(*args, **kwargs):
     def decorator(func):
+        if len(args) == 0 and len(kwargs) == 0:
+            args = (func.__name__,)
+        warehouse = Warehouse(*args, **kwargs)
         def wrapper(*_args, **_kwargs):
             if _args in warehouse:
                 output = warehouse[_args]
