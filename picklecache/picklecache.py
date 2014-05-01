@@ -1,3 +1,5 @@
+import functools
+
 from pickle_warehouse import Warehouse
 
 def cache(*args, **kwargs):
@@ -17,10 +19,12 @@ def cache(*args, **kwargs):
     to cache, the Warehouse directory argument (the one
     required argument) will be set to the name of the function.
     '''
-    def decorator(func):
+
+    def decorator(args, kwargs, func):
         if len(args) == 0 and len(kwargs) == 0:
-            args = (func.__name__,)
-        warehouse = Warehouse(*args, **kwargs)
+            warehouse = None
+        else:
+            warehouse = Warehouse(*args, **kwargs)
         def wrapper(*_args, **_kwargs):
             if _args in warehouse:
                 output = warehouse[_args]
@@ -38,4 +42,4 @@ def cache(*args, **kwargs):
             else:
                 raise error
         return wrapper
-    return decorator
+    return functools.partial(decorator, args, kwargs)
