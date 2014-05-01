@@ -32,7 +32,7 @@ def test_old_success():
     n.assert_equal(observed_response, 88)
     n.assert_tuple_equal(warehouse[(url,)], (None, 88))
 
-def test_cache_error():
+def test_new_error():
     tmp = mkdtemp()
     warehouse = Warehouse(tmp)
     url = 'http://a.b/c'
@@ -49,6 +49,25 @@ def test_cache_error():
         get(url)
     except ValueError:
         n.assert_tuple_equal(warehouse[(url,)], (error, None))
+    else:
+        raise AssertionError('An error should have been raised.')
+
+
+def test_old_error():
+    tmp = mkdtemp()
+    warehouse = Warehouse(tmp)
+    url = 'http://a.b/c'
+    error = ValueError('This is a test.')
+    warehouse[url] = (error, None)
+
+    @cache(tmp)
+    def get(_):
+        raise AssertionError('This should not run.')
+
+    try:
+        get(url)
+    except ValueError as e:
+        n.assert_equal(str(e), str(error))
     else:
         raise AssertionError('An error should have been raised.')
 
