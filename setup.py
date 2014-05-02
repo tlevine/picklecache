@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-__version__ = '0.0.1'
+from picklecache import __version__
 
 setup(name='picklecache',
       author='Thomas Levine',
