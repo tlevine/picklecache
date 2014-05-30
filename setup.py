@@ -1,7 +1,5 @@
 from distutils.core import setup
 
-from picklecache import __version__
-
 setup(name='picklecache',
       author='Thomas Levine',
       author_email='_@thomaslevine.com',
@@ -10,6 +8,6 @@ setup(name='picklecache',
       packages=['picklecache'],
       install_requires = ['pickle_warehouse'],
       tests_require = ['nose'],
-      version=__version__,
+      version='0.0.4',
       license='AGPL',
 )
