@@ -1,0 +1,67 @@
+Cache the results of a function.
+
+Simple use
+===============
+Decorate the function with ``@cache(cachedir, **kwargs)``.
+For example, ::
+
+    @cache()
+    def is_prime(number):
+        for n in range(2, number):
+            if number % n == 0:
+                return False
+        return True
+
+Fancier uses
+===============
+
+Non-default directory
+----------------------------
+If you pass no arguments to cache, as in the example above,
+the cache will be stored in a directory named after the function.
+To set a different directory, pass it as an argument.
+
+    @cache('~/.primes')
+    def is_prime(number):
+        for n in range(2, number):
+            if number % n == 0:
+                return False
+        return True
+
+I recommend storing your caches in dotted directories under your
+home directory, as you see above.
+
+Configuration
+----------------------------
+The kwargs get passed to the ``pickle_warehouse.Warehouse``, so you
+can do fun things like changing the serialization function.
+
+    @cache('~/.http', serializer = pickle_warehouse.serializers.identity)
+    def get(url):
+        return requests.get(url).text
+
+Read more about the keyword arguments on the
+`pickle-warehouse page <https://pypi.python.org/pypi/pickle-warehouse>`_.
+
+Non-identifying arguments
+----------------------------
+If you want to pass an argument but not use it as an identifier,
+pass a non-keyword argument; those get passed along to the function
+but don't form the identifier. For example, ::
+
+    @cache('~/.http')
+    def get(url, auth = None):
+        return requests.get(url, auth = auth)
+
+    get('http://this.website.com', auth = ('username', 'password')
+
+Refreshing the cache
+==========================
+I find that I sometimes want to refresh the cache for a particular
+file, only. This is usually because an error occurred and I have fixed
+the error or because I am downloading files from a website that doesn't
+work very well.
+
+It would be nice to have a convenient way of refreshing these files.
+Until then, I suggest that you log the arguments to the function call
+that yields the cached error and then delete the corresponding file.
