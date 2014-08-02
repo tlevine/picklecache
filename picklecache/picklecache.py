@@ -1,3 +1,4 @@
+import os
 import functools
 
 from pickle_warehouse import Warehouse
@@ -10,7 +11,7 @@ def cache(*args, **kwargs):
     The args and kwargs get passed to the Warehouse.
     For example::
 
-        @cache('.http')
+        @cache('~/.http')
         def get(url):
             return requests.get(url, auth = ('username', 'password'))
 
@@ -21,10 +22,11 @@ def cache(*args, **kwargs):
     '''
 
     def decorator(args, kwargs, func):
-        if len(args) == 0 and len(kwargs) == 0:
-            warehouse = None
+        if len(args) == 0:
+            cachedir = func.__name__
         else:
-            warehouse = Warehouse(*args, **kwargs)
+            cachedir = os.path.expanduser(args.pop(0))
+        warehouse = Warehouse(*args, **kwargs)
         def wrapper(*_args, **_kwargs):
             if _args in warehouse:
                 output = warehouse[_args]

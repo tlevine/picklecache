@@ -1,3 +1,4 @@
+import shutil
 from tempfile import mkdtemp
 
 import nose.tools as n
@@ -69,3 +70,26 @@ def test_old_error():
     else:
         raise AssertionError('An error should have been raised.')
 
+
+def test_expanduser():
+    try:
+        shutil.rmtree(os.path.expanduser('~/.picklecache-test'))
+    except:
+        pass
+
+    @cache('~/.picklecache-test')
+    def a(_):
+        return 3
+    a('b')
+    n.assert_true(os.path.isfile('~/.picklecache-test/b'))
+
+def test_function_name():
+    try:
+        shutil.rmtree('a_function')
+    except:
+        pass
+
+    @cache()
+    def a_function(_):
+        return 3
+    n.assert_true(os.path.isdir('a_function'))

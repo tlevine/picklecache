@@ -8,6 +8,6 @@ setup(name='picklecache',
       packages=['picklecache'],
       install_requires = ['pickle_warehouse'],
       tests_require = ['nose'],
-      version='0.0.4',
+      version='0.0.5',
       license='AGPL',
 )
