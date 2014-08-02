@@ -19,7 +19,7 @@ Non-default directory
 ----------------------------
 If you pass no arguments to cache, as in the example above,
 the cache will be stored in a directory named after the function.
-To set a different directory, pass it as an argument.
+To set a different directory, pass it as an argument. ::
 
     @cache('~/.primes')
     def is_prime(number):
@@ -34,7 +34,7 @@ home directory, as you see above.
 Configuration
 ----------------------------
 The kwargs get passed to the ``pickle_warehouse.Warehouse``, so you
-can do fun things like changing the serialization function.
+can do fun things like changing the serialization function. ::
 
     @cache('~/.http', serializer = pickle_warehouse.serializers.identity)
     def get(url):
