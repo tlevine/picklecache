@@ -84,6 +84,11 @@ def test_expanduser():
     a('b')
     n.assert_true(os.path.isfile(os.path.expanduser('~/.picklecache-test/b')))
 
+    try:
+        shutil.rmtree(os.path.expanduser('~/.picklecache-test'))
+    except:
+        pass
+
 def test_function_name():
     try:
         shutil.rmtree('a_function')
@@ -94,3 +99,8 @@ def test_function_name():
     def a_function(_):
         return 3
     n.assert_true(os.path.isdir('a_function'))
+
+    try:
+        shutil.rmtree('a_function')
+    except:
+        pass
