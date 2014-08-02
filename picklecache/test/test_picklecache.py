@@ -82,7 +82,7 @@ def test_expanduser():
     def a(_):
         return 3
     a('b')
-    n.assert_true(os.path.isfile('~/.picklecache-test/b'))
+    n.assert_true(os.path.isfile(os.path.expanduser('~/.picklecache-test/b')))
 
 def test_function_name():
     try:
